@@ -1,0 +1,33 @@
+{
+  "name": "kagatan/user-options",
+  "description": "Laravel. Simple key-value storage for Users",
+  "type": "library",
+  "keywords": [
+    "key-value",
+    "storage",
+    "settings",
+    "options",
+    "persistent",
+    "laravel"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Kagatan",
+      "email": "stupakovmax@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.0",
+    "illuminate/support": ">=5.0.0",
+    "illuminate/database": ">=5.0.0"
+  },
+  "autoload": {
+    "classmap": [
+      "database"
+    ],
+    "psr-4": {
+      "Kagatan\\UserOption\\": "src/UserOption/"
+    }
+  }
+}
