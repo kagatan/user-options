@@ -11,8 +11,6 @@ class UserOption extends Model
 {
     use OptionStorage;
 
-    protected $table = 'test_options';
-
     public $incrementing = false;
 
     protected $primaryKey = ['user_id', 'key'];
