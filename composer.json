@@ -23,9 +23,6 @@
     "illuminate/database": ">=5.0.0"
   },
   "autoload": {
-    "classmap": [
-      "database"
-    ],
     "psr-4": {
       "Kagatan\\UserOption\\": "src/UserOption/"
     }
