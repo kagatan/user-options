@@ -2,6 +2,9 @@
 # key-value User option for Laravel
 
  * Simple key-value storage for Users (Laravel)
+ 
+## Install
+```composer require kagatan/user-options```
 
 ## Usage
 
