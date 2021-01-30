@@ -12,6 +12,8 @@ class UserOption extends Model
     use OptionStorage;
 
     public $incrementing = false;
+    
+    protected $ownerKey = 'user_id';
 
     protected $primaryKey = ['user_id', 'key'];
 
