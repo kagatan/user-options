@@ -19,7 +19,7 @@ trait OptionStorage
     {
         $query
             ->where('key', '=', $this->getAttribute('key'))
-            ->where('user_id', '=', $this->getAttribute('user_id'));
+            ->where($this->getOwnerKey(), '=', $this->getAttribute($this->getOwnerKey()));
 
         return $query;
     }
@@ -48,7 +48,9 @@ trait OptionStorage
      */
     public static function exists($userID, $key)
     {
-        return self::where('key', $key)->where('user_id', $userID)->exists();
+        $model = new self();
+
+        return $model::where('key', $key)->where($model->getOwnerKey(), $userID)->exists();
     }
 
     /**
@@ -61,8 +63,10 @@ trait OptionStorage
      */
     public static function get($userID, $key, $default = null)
     {
-        $option = self::query()
-            ->where('user_id', $userID)
+        $model = new self();
+
+        $option = $model::query()
+            ->where($model->getOwnerKey(), $userID)
             ->where('key', $key)
             ->first();
 
@@ -81,15 +85,17 @@ trait OptionStorage
      */
     public static function getAll($userID, $condition = false)
     {
+        $model = new self();
+
         if ($condition) {
-            return self::query()
-                ->where('user_id', $userID)
+            return $model::query()
+                ->where($model->getOwnerKey(), $userID)
                 ->where('key', 'LIKE', $condition)
                 ->get()
                 ->pluck('value', 'key');
         } else {
-            return self::query()
-                ->where('user_id', $userID)
+            return $model::query()
+                ->where($model->getOwnerKey(), $userID)
                 ->get()
                 ->pluck('value', 'key');
         }
@@ -104,10 +110,12 @@ trait OptionStorage
      */
     public static function set($userID, $key, $value = null)
     {
+        $model = new self();
+
         $keys = is_array($key) ? $key : [$key => $value];
 
         foreach ($keys as $key => $value) {
-            self::updateOrCreate(['key' => $key, 'user_id' => $userID], ['value' => $value]);
+            $model::updateOrCreate(['key' => $key, $model->getOwnerKey() => $userID], ['value' => $value]);
         }
     }
 
@@ -119,9 +127,25 @@ trait OptionStorage
      */
     public static function remove($userID, $key)
     {
-        return (bool)self::query()
-            ->where('user_id', $userID)
+        $model = new self();
+
+        return (bool)$model::query()
+            ->where($model->getOwnerKey(), $userID)
             ->where('key', $key)
             ->delete();
+    }
+
+    /**
+     * Get ownerKey
+     * 
+     * @return string
+     */
+    private function getOwnerKey()
+    {
+        if (isset($this->ownerKey)) {
+            return $this->ownerKey;
+        } else {
+            return 'user_id';
+        }
     }
 }
