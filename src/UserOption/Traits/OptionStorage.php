@@ -9,13 +9,13 @@ use Illuminate\Database\Eloquent\Builder;
 trait OptionStorage
 {
 
-    /**
+     /**
      * Override setKeysForSaveQuery
-     *
-     * @param Builder $query
-     * @return Builder
+     * 
+     * @param $query
+     * @return mixed
      */
-    protected function setKeysForSaveQuery(Builder $query)
+    protected function setKeysForSaveQuery($query)
     {
         $query
             ->where('key', '=', $this->getAttribute('key'))
